@@ -19,12 +19,15 @@ import os
 import pandas as pd
 from pandas import ExcelFile
 
+GENERATIONS = ["g1","g2","g3","g4","g5"]
+EFFECTS = ["normal", "suspenso", "bono"]
+
 def get_arguments():
-    if len(sys.argv) < 3: # Falta validar si los argumentos disponibles
+    if len(sys.argv) < 3:
         print("************************************************")
         print("Ingrese Argumentos:")
-        print("Generaciones disponibles: (g1, g2, g3, g4, g5)")
-        print("Modos disponibles: (normal, suspenso, fuego_artificial)")
+        print("Generaciones disponibles: {}".format(GENERATIONS))
+        print("Modos disponibles: {}".format(EFFECTS))
         print("Ejemplo: python3 vistima.py g5 suspenso")
         print("Para salir presione la tecla 'X'")
         print("************************************************\n")
@@ -32,7 +35,18 @@ def get_arguments():
     else:
         generation = sys.argv[1]
         mode = sys.argv[2]
-        return generation, mode
+        # validar si los argumentos ingresados están presentes en EFFECTS y GENERATIONS
+        if generation in GENERATIONS and mode in EFFECTS:
+            return generation, mode
+        else:
+            print("************************************************")
+            print("Ingrese Argumentos:")
+            print("Generaciones disponibles: {}".format(GENERATIONS))
+            print("Modos disponibles: {}".format(EFFECTS))
+            print("Ejemplo: python3 vistima.py g5 suspenso")
+            print("Para salir presione la tecla 'X'")
+            print("************************************************\n")
+            sys.exit()
 
 def get_student_from_xlsx(generation):
     cwd = os.getcwd()
@@ -128,7 +142,7 @@ while True:
         # seleccionar efecto
         if mode == "normal":
             Screen.wrapper(normal)
-        elif mode == "fuego_artificial":
+        elif mode == "bono":
             Screen.wrapper(fireworks)
         else:
             Screen.wrapper(suspense)
